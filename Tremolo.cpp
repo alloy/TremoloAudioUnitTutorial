@@ -30,11 +30,20 @@ Tremolo::Tremolo(AudioUnit component) : AUEffectBase(component) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::GetParameterValueStrings
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-OSStatus Tremolo::GetParameterValueStrings(AudioUnitScope inScope, AudioUnitParameterID inParameterID, CFArrayRef *outStrings) {
-  return kAudioUnitErr_InvalidProperty;
+ComponentResult Tremolo::GetParameterValueStrings(AudioUnitScope inScope, AudioUnitParameterID inParameterID, CFArrayRef *outStrings) {
+  if ((inScope == kAudioUnitScope_Global) && (inParameterID == kParameter_Waveform)) {
+    if (outStrings == NULL) {
+      return noErr;
+    }
+
+    CFStringRef strings[] = { kMenuItem_Tremolo_Sine, kMenuItem_Tremolo_Square };
+
+    *outStrings = CFArrayCreate(NULL, (const void **)strings, (sizeof(strings) / sizeof(strings[0])), NULL);
+
+    return noErr;
+  }
+  return kAudioUnitErr_InvalidParameter;
 }
-
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::GetParameterInfo
