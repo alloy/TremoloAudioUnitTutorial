@@ -161,7 +161,7 @@ OSStatus Tremolo::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
 #pragma mark ____TremoloEffectKernel
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//    TremoloUnit::TremoloUnitKernel::TremoloUnitKernel()
+//    Tremolo::TremoloKernel::TremoloKernel()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tremolo::TremoloKernel::TremoloKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit), mSamplesProcessed(0), mCurrentScale(0) {
   for (int i = 0; i < kWaveArraySize; ++i) {
@@ -189,44 +189,84 @@ Tremolo::TremoloKernel::TremoloKernel(AUEffectBase *inAudioUnit) : AUKernelBase(
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::TremoloKernel::Reset()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void    Tremolo::TremoloKernel::Reset()
-{
+void Tremolo::TremoloKernel::Reset() {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::TremoloKernel::Process
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void    Tremolo::TremoloKernel::Process(  const Float32   *inSourceP,
-                                                    Float32       *inDestP,
-                                                    UInt32       inFramesToProcess,
-                                                    UInt32      inNumChannels, // for version 2 AudioUnits inNumChannels is always 1
-                                                    bool      &ioSilence )
-{
+void Tremolo::TremoloKernel::Process(const Float32 *inSourceP,
+                                     Float32       *inDestP,
+                                     UInt32        inSamplesToProcess,
+                                     UInt32        inNumChannels, // for version 2 AudioUnits inNumChannels is always 1
+                                     bool          &ioSilence) {
 
-  //This code will pass-thru the audio data.
-  //This is where you want to process data to produce an effect.
+  if (!ioSilence) {
+    const Float32 *sourceP = inSourceP;
 
-  
-  UInt32 nSampleFrames = inFramesToProcess;
-  const Float32 *sourceP = inSourceP;
-  Float32 *destP = inDestP;
-  //Float32 gain = GetParameter( kParam_One );
-  Float32 gain = 50.0;
-  
-  while (nSampleFrames-- > 0) {
-    Float32 inputSample = *sourceP;
-    
-    //The current (version 2) AudioUnit specification *requires* 
-      //non-interleaved format for all inputs and outputs. Therefore inNumChannels is always 1
-    
-    sourceP += inNumChannels;  // advance to next frame (e.g. if stereo, we're advancing 2 samples);
-                  // we're only processing one of an arbitrary number of interleaved channels
+    Float32 *destP = inDestP,
+            inputSample,
+            outputSample,
+            tremoloFrequency,
+            tremoloDepth,
+            samplesPerTremoloCycle,
+            rawTremoloGain,
+            tremoloGain;
 
-      // here's where you do your DSP work
-                Float32 outputSample = inputSample * gain;
-    
-    *destP = outputSample;
-    destP += inNumChannels;
+    int tremoloWaveform;
+
+    // Setup values
+    tremoloFrequency = GetParameter(kParameter_Frequency);
+    tremoloDepth     = GetParameter(kParameter_Depth);
+    tremoloWaveform  = (int)GetParameter(kParameter_Waveform);
+
+    if (tremoloWaveform == kSineWave_Tremolo_Waveform) {
+      waveArrayPointer = &mSine[0];
+    } else {
+      waveArrayPointer = &mSquare[0];
+    }
+
+    if (tremoloFrequency < kMinimumValue_Tremolo_Freq) {
+      tremoloFrequency = kMinimumValue_Tremolo_Freq;
+    } else if (tremoloFrequency > kMaximumValue_Tremolo_Freq) {
+      tremoloFrequency = kMaximumValue_Tremolo_Freq;
+    }
+
+    if (tremoloDepth < kMinimumValue_Tremolo_Depth) {
+      tremoloDepth = kMinimumValue_Tremolo_Depth;
+    } else if (tremoloDepth > kMaximumValue_Tremolo_Depth) {
+      tremoloDepth = kMaximumValue_Tremolo_Depth;
+    }
+
+    if (tremoloWaveform != kSineWave_Tremolo_Waveform && tremoloWaveform != kSquareWave_Tremolo_Waveform) {
+      tremoloWaveform = kDefaultValue_Tremolo_Waveform;
+    }
+
+    samplesPerTremoloCycle = mSampleFrequency / tremoloFrequency;
+    mNextScale = kWaveArraySize / samplesPerTremoloCycle;
+
+    // Process loop
+    for (int i = inSamplesToProcess; i > 0; --i) {
+      int index = static_cast<long>(mSamplesProcessed * mCurrentScale) % kWaveArraySize;
+
+      if (mNextScale != mCurrentScale && index == 0) {
+        mCurrentScale = mNextScale;
+        mSamplesProcessed = 0;
+      }
+
+      if (mSamplesProcessed > sampleLimit && index == 0) {
+        mSamplesProcessed = 0;
+      }
+
+      rawTremoloGain     = waveArrayPointer[index];
+      tremoloGain        = (rawTremoloGain * tremoloDepth - tremoloDepth + 100.0) * 0.01;
+      inputSample        = *sourceP;
+      outputSample       = inputSample * tremoloGain;
+      *destP             = outputSample;
+      sourceP           += 1;
+      destP             += 1;
+      mSamplesProcessed += 1;
+    }
   }
 }
 
