@@ -63,8 +63,7 @@ static AUPreset kPresets[kNumberPresets] = {
 static const inst kPreset_Default = kPreset_Slow;
 
 #pragma mark ____Tremolo
-class Tremolo : public AUEffectBase
-{
+class Tremolo : public AUEffectBase {
 public:
   Tremolo(AudioUnit component);
 #if AU_DEBUG_DISPATCHER
@@ -72,6 +71,10 @@ public:
 #endif
 
   virtual AUKernelBase *    NewKernel() { return new TremoloKernel(this); }
+
+  virtual ComponentResult GetPresets(CFArrayRef *outData) const;
+
+  virtual OSStatus NewFactoryPresetSet(const AUPreset &inNewFactoryPreset);
 
   virtual ComponentResult Tremolo::GetParameterValueStrings(AudioUnitScope inScope, AudioUnitParameterID inParameterID, CFArrayRef *outStrings);
   virtual ComponentResult Tremolo::GetParameterInfo(AudioUnitScope inScope, AudioUnitParameterID inParameterID, AudioUnitParameterInfo &outParameterInfo);
