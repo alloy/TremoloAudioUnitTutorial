@@ -94,29 +94,34 @@ public:
   
   /*! @method Version */
   virtual OSStatus    Version() { return kTremoloVersion; }
-  
-    
-  
+
 protected:
-    class TremoloKernel : public AUKernelBase    // most of the real work happens here
-  {
-public:
-    TremoloKernel(AUEffectBase *inAudioUnit )
-    : AUKernelBase(inAudioUnit)
-  {
-  }
-    
-    // *Required* overides for the process method for this effect
+
+  class TremoloKernel : public AUKernelBase {   // most of the real work happens here
+
+  public:
+    TremoloKernel(AUEffectBase *inAudioUnit);
+
+    // *Required* overrides for the process method for this effect
     // processes one channel of interleaved samples
-        virtual void     Process(  const Float32   *inSourceP,
-                    Float32       *inDestP,
-                    UInt32       inFramesToProcess,
-                    UInt32      inNumChannels,
-                    bool      &ioSilence);
-    
-        virtual void    Reset();
-    
-    //private: //state variables...
+    virtual void Process(const Float32   *inSourceP,
+                         Float32         *inDestP,
+                         UInt32          inFramesToProcess,
+                         UInt32          inNumChannels,
+                         bool            &ioSilence);
+
+    virtual void    Reset();
+
+  private:
+    enum    { kWaveArraySize = 2000 };
+    float   mSine[kWaveArraySize];
+    float   mSquare[kWaveArraySize];
+    float   *waveArrayPointer;
+    Float32 mSampleFrequency;
+    long    mSamplesProcessed;
+    enum    { sampleLimit = (int)10E6 };
+    float   mCurrentScale;
+    float   mNextScale;
   };
 };
 
