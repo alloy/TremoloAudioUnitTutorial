@@ -160,6 +160,31 @@ OSStatus Tremolo::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
 
 #pragma mark ____TremoloEffectKernel
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//    TremoloUnit::TremoloUnitKernel::TremoloUnitKernel()
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tremolo::TremoloKernel::TremoloKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit), mSamplesProcessed(0), mCurrentScale(0) {
+  for (int i = 0; i < kWaveArraySize; ++i) {
+    double radians = i * 2.0 * pi / kWaveArraySize;
+    mSine[i] = (sin(radians) + 1.0) * 0.5; // the sinus of radians, made positive between 0 and 1
+  }
+
+  for (int i = 0; i < kWaveArraySize; ++i) {
+      double radians = i * 2.0 * pi / kWaveArraySize;
+      radians = radians + 0.32;
+      mSquare[i] = (sin(radians) +
+                     0.3 * sin(3 * radians) +
+                     0.15 * sin(5 * radians) +
+                     0.075 * sin(7 * radians) +
+                     0.0375 * sin(9 * radians) +
+                     0.01875 * sin(11 * radians) +
+                     0.009375 * sin(13 * radians) +
+                     0.8
+                   ) * 0.63;
+  }
+
+  mSampleFrequency = GetSampleRate();
+}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::TremoloKernel::Reset()
