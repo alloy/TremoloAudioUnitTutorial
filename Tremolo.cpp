@@ -131,6 +131,32 @@ ComponentResult TremoloUnit::GetPresets(CFArrayRef *outData) const {
   return noErr;
 }
 
+OSStatus TremoloUnit::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
+  SInt32 chosenPreset = inNewFactoryPreset.presetNumber;
+
+  if (chosenPreset == kPreset_Slow || chosenPreset == kPreset_Fast) {
+    for (int i = 0; i < kNumberPresets; ++i) {
+      if (chosenPreset == kPresets[i].presetNumber) {
+        switch (chosenPreset) {
+          case kPreset_Slow:
+            SetParameter(kParameter_Frequency, kParameter_Preset_Frequency_Slow);
+            SetParameter(kParameter_Depth, kParameter_Preset_Depth_Slow);
+            SetParameter(kParameter_Waveform, kParameter_Preset_Waveform_Slow);
+            break;
+
+          case kPreset_Fast:
+            SetParameter(kParameter_Frequency, kParameter_Preset_Frequency_Fast);
+            SetParameter(kParameter_Depth, kParameter_Preset_Depth_Fast);
+            SetParameter(kParameter_Waveform, kParameter_Preset_Waveform_Fast);
+            break;
+        }
+        SetAFactoryPresetAsCurrent(kPresets[i]);
+        return noErr;
+      }
+    }
+  }
+  return kAudioUnitErr_InvalidProperty;
+}
 
 #pragma mark ____TremoloEffectKernel
 
