@@ -190,6 +190,8 @@ Tremolo::TremoloKernel::TremoloKernel(AUEffectBase *inAudioUnit) : AUKernelBase(
 //  Tremolo::TremoloKernel::Reset()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void Tremolo::TremoloKernel::Reset() {
+  mCurrentScale = 0;
+  mSamplesProcessed = 0;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
