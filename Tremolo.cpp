@@ -116,7 +116,7 @@ OSStatus      Tremolo::GetProperty(  AudioUnitPropertyID inID,
 
 #pragma mark ____Factory Presets
 
-ComponentResult TremoloUnit::GetPresets(CFArrayRef *outData) const {
+ComponentResult Tremolo::GetPresets(CFArrayRef *outData) const {
   if (outData == NULL) {
     return noErr;
   }
@@ -131,7 +131,7 @@ ComponentResult TremoloUnit::GetPresets(CFArrayRef *outData) const {
   return noErr;
 }
 
-OSStatus TremoloUnit::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
+OSStatus Tremolo::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
   SInt32 chosenPreset = inNewFactoryPreset.presetNumber;
 
   if (chosenPreset == kPreset_Slow || chosenPreset == kPreset_Fast) {
@@ -185,7 +185,8 @@ void    Tremolo::TremoloKernel::Process(  const Float32   *inSourceP,
   UInt32 nSampleFrames = inFramesToProcess;
   const Float32 *sourceP = inSourceP;
   Float32 *destP = inDestP;
-  Float32 gain = GetParameter( kParam_One );
+  //Float32 gain = GetParameter( kParam_One );
+  Float32 gain = 50.0;
   
   while (nSampleFrames-- > 0) {
     Float32 inputSample = *sourceP;

@@ -30,14 +30,14 @@ static const int kDefaultValue_Tremolo_Waveform = kSineWave_Tremolo_Waveform;
 
 // menu item names for the waveform parameter
 static CFStringRef kMenuItem_Tremolo_Sine = CFSTR("Sine");
-statuc CFStringRef kMenuItem_Tremolo_Square = CFSTR("Square");
+static CFStringRef kMenuItem_Tremolo_Square = CFSTR("Square");
 
 // parameter identifiers
 enum {
-  kParameter_Frequency = 0;
-  kParameter_Depth     = 1;
-  kParameter_Waveform  = 2;
-  kNumberOfParameters  = 3;
+  kParameter_Frequency = 0,
+  kParameter_Depth     = 1,
+  kParameter_Waveform  = 2,
+  kNumberOfParameters  = 3
 };
 
 #pragma mark ____Tremolo Factory Preset Constants
@@ -60,7 +60,7 @@ static AUPreset kPresets[kNumberPresets] = {
   { kPreset_Fast, CFSTR("Fast & Hard") }
 };
 
-static const inst kPreset_Default = kPreset_Slow;
+static const int kPreset_Default = kPreset_Slow;
 
 #pragma mark ____Tremolo
 class Tremolo : public AUEffectBase {
@@ -76,8 +76,8 @@ public:
 
   virtual OSStatus NewFactoryPresetSet(const AUPreset &inNewFactoryPreset);
 
-  virtual ComponentResult Tremolo::GetParameterValueStrings(AudioUnitScope inScope, AudioUnitParameterID inParameterID, CFArrayRef *outStrings);
-  virtual ComponentResult Tremolo::GetParameterInfo(AudioUnitScope inScope, AudioUnitParameterID inParameterID, AudioUnitParameterInfo &outParameterInfo);
+  virtual ComponentResult GetParameterValueStrings(AudioUnitScope inScope, AudioUnitParameterID inParameterID, CFArrayRef *outStrings);
+  virtual ComponentResult GetParameterInfo(AudioUnitScope inScope, AudioUnitParameterID inParameterID, AudioUnitParameterInfo &outParameterInfo);
 
   virtual OSStatus      GetPropertyInfo(AudioUnitPropertyID    inID,
                         AudioUnitScope      inScope,

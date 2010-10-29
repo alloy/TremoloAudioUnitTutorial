@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -301,7 +299,7 @@
 							<real>220</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>42 140 968 638 0 0 1280 778 </string>
+						<string>171 140 968 638 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -317,7 +315,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Tremolo.r</string>
+								<string>Tremolo.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,11 +323,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Tremolo.r</string>
+										<string>Tremolo.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5187CF19127B5B9600C8DEEB</string>
+										<string>5187CF3A127B6D2600C8DEEB</string>
 										<key>history</key>
 										<array>
 											<string>5187CF05127B5AD900C8DEEB</string>
@@ -338,7 +336,8 @@
 											<string>5187CF09127B5AD900C8DEEB</string>
 											<string>5187CF0B127B5AD900C8DEEB</string>
 											<string>5187CF0C127B5AD900C8DEEB</string>
-											<string>5187CF0D127B5AD900C8DEEB</string>
+											<string>5187CF25127B6CE900C8DEEB</string>
+											<string>5187CF26127B6CE900C8DEEB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -352,7 +351,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {726, 453}}</string>
 								<key>RubberWindowFrame</key>
-								<string>42 140 968 638 0 0 1280 778 </string>
+								<string>171 140 968 638 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -360,6 +359,8 @@
 							<string>453pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -372,7 +373,7 @@
 								<key>Frame</key>
 								<string>{{0, 458}, {726, 139}}</string>
 								<key>RubberWindowFrame</key>
-								<string>42 140 968 638 0 0 1280 778 </string>
+								<string>171 140 968 638 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -536,11 +537,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>5187CEE91278C51300C8DEEB</string>
 		<string>/Users/eloy/Desktop/Tremolo/Tremolo.xcodeproj</string>
+		<string>5187CEE91278C51300C8DEEB</string>
 	</array>
 	<key>WindowString</key>
-	<string>42 140 968 638 0 0 1280 778 </string>
+	<string>171 140 968 638 0 0 1280 778 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -561,23 +562,25 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>Tremolo.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {500, 218}}</string>
+								<string>{{0, 0}, {1013, 334}}</string>
 								<key>RubberWindowFrame</key>
-								<string>265 200 500 500 0 0 1280 778 </string>
+								<string>210 162 1013 616 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>218pt</string>
+							<string>334pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -592,9 +595,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 223}, {500, 236}}</string>
+								<string>{{0, 339}, {1013, 236}}</string>
 								<key>RubberWindowFrame</key>
-								<string>265 200 500 500 0 0 1280 778 </string>
+								<string>210 162 1013 616 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -603,7 +606,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>459pt</string>
+					<string>575pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -626,11 +629,11 @@
 			<key>WindowContentMinSize</key>
 			<string>486 300</string>
 			<key>WindowString</key>
-			<string>265 200 500 500 0 0 1280 778 </string>
+			<string>210 162 1013 616 0 0 1280 778 </string>
 			<key>WindowToolGUID</key>
 			<string>5187CEE91278C51300C8DEEB</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
