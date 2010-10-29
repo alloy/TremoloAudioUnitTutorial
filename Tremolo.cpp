@@ -39,34 +39,43 @@ OSStatus Tremolo::GetParameterValueStrings(AudioUnitScope inScope, AudioUnitPara
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //  Tremolo::GetParameterInfo
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-OSStatus      Tremolo::GetParameterInfo(AudioUnitScope    inScope,
-                                                        AudioUnitParameterID  inParameterID,
-                                                        AudioUnitParameterInfo  &outParameterInfo )
-{
-  OSStatus result = noErr;
+ComponentResult Tremolo::GetParameterInfo(AudioUnitScope inScope, AudioUnitParameterID inParameterID, AudioUnitParameterInfo &outParameterInfo) {
+  ComponentResult result = noErr;
 
-  outParameterInfo.flags =   kAudioUnitParameterFlag_IsWritable
-            |    kAudioUnitParameterFlag_IsReadable;
-    
-    if (inScope == kAudioUnitScope_Global) {
-        switch(inParameterID)
-        {
-            case kParam_One:
-                AUBase::FillInParameterName (outParameterInfo, kParameterOneName, false);
-                outParameterInfo.unit = kAudioUnitParameterUnit_LinearGain;
-                outParameterInfo.minValue = 0.0;
-                outParameterInfo.maxValue = 1;
-                outParameterInfo.defaultValue = kDefaultValue_ParamOne;
-                break;
-            default:
-                result = kAudioUnitErr_InvalidParameter;
-                break;
-            }
-  } else {
-        result = kAudioUnitErr_InvalidParameter;
+  outParameterInfo.flags = kAudioUnitParameterFlag_IsWritable | kAudioUnitParameterFlag_IsReadable;
+
+  if (inScope == kAudioUnitScope_Global) {
+    switch(inParameterID) {
+      case kParameter_Frequency:
+          AUBase::FillInParameterName(outParameterInfo, kParamName_Tremolo_Freq, false);
+          outParameterInfo.unit = kAudioUnitParameterUnit_Hertz;
+          outParameterInfo.minValue = kMinimumValue_Tremolo_Freq;
+          outParameterInfo.maxValue = kMaximumValue_Tremolo_Freq;
+          outParameterInfo.defaultValue = kDefaultValue_Tremolo_Freq;
+          outParameterInfo.flags |= kAudioUnitParameterFlag_DisplayLogarithmic;
+          break;
+
+      case kParameter_Depth:
+          AUBase::FillInParameterName(outParameterInfo, kParamName_Tremolo_Depth, false);
+          outParameterInfo.unit = kAudioUnitParameterUnit_Percent;
+          outParameterInfo.minValue = kMinimumValue_Tremolo_Depth;
+          outParameterInfo.maxValue = kMaximumValue_Tremolo_Depth;
+          outParameterInfo.defaultValue = kDefaultValue_Tremolo_Depth;
+
+      case kParameter_Waveform:
+          AUBase::FillInParameterName(outParameterInfo, kParamName_Tremolo_Waveform, false);
+          outParameterInfo.unit = kAudioUnitParameterUnit_Indexed;
+          outParameterInfo.minValue = kSineWave_Tremolo_Waveform;
+          outParameterInfo.maxValue = kSquareWave_Tremolo_Waveform;
+          outParameterInfo.defaultValue = kDefaultValue_Tremolo_Waveform;
+
+      default:
+          result = kAudioUnitErr_InvalidParameter;
+          break;
     }
-    
-
+  } else {
+    result = kAudioUnitErr_InvalidParameter;
+  }
 
   return result;
 }
