@@ -72,6 +72,7 @@ ComponentResult Tremolo::GetParameterInfo(AudioUnitScope inScope, AudioUnitParam
           outParameterInfo.minValue = kMinimumValue_Tremolo_Depth;
           outParameterInfo.maxValue = kMaximumValue_Tremolo_Depth;
           outParameterInfo.defaultValue = kDefaultValue_Tremolo_Depth;
+          break;
 
       case kParameter_Waveform:
           AUBase::FillInParameterName(outParameterInfo, kParamName_Tremolo_Waveform, false);
@@ -79,6 +80,7 @@ ComponentResult Tremolo::GetParameterInfo(AudioUnitScope inScope, AudioUnitParam
           outParameterInfo.minValue = kSineWave_Tremolo_Waveform;
           outParameterInfo.maxValue = kSquareWave_Tremolo_Waveform;
           outParameterInfo.defaultValue = kDefaultValue_Tremolo_Waveform;
+          break;
 
       default:
           result = kAudioUnitErr_InvalidParameter;
