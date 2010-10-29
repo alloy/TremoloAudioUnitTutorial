@@ -3,7 +3,7 @@
   
 =============================================================================*/
 #include "Tremolo.h"
-
+#include <math.h>
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -165,12 +165,12 @@ OSStatus Tremolo::NewFactoryPresetSet(const AUPreset &inNewFactoryPreset) {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Tremolo::TremoloKernel::TremoloKernel(AUEffectBase *inAudioUnit) : AUKernelBase(inAudioUnit), mSamplesProcessed(0), mCurrentScale(0) {
   for (int i = 0; i < kWaveArraySize; ++i) {
-    double radians = i * 2.0 * pi / kWaveArraySize;
+    double radians = i * 2.0 * M_PI / kWaveArraySize;
     mSine[i] = (sin(radians) + 1.0) * 0.5; // the sinus of radians, made positive between 0 and 1
   }
 
   for (int i = 0; i < kWaveArraySize; ++i) {
-      double radians = i * 2.0 * pi / kWaveArraySize;
+      double radians = i * 2.0 * M_PI / kWaveArraySize;
       radians = radians + 0.32;
       mSquare[i] = (sin(radians) +
                      0.3 * sin(3 * radians) +
