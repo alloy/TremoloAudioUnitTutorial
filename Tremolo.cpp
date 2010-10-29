@@ -21,6 +21,8 @@ Tremolo::Tremolo(AudioUnit component) : AUEffectBase(component) {
   SetParameter(kParameter_Depth, kDefaultValue_Tremolo_Depth);
   SetParameter(kParameter_Waveform, kDefaultValue_Tremolo_Waveform);
 
+  SetAFactoryPresetAsCurrent(kPresets[kPreset_Default]);
+
 #if AU_DEBUG_DISPATCHER
   mDebugDispatcher = new AUDebugDispatcher(this);
 #endif
