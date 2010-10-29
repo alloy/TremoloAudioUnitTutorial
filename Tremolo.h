@@ -89,9 +89,9 @@ public:
                       AudioUnitScope     inScope,
                       AudioUnitElement     inElement,
                       void *      outData);
-  
-   virtual  bool        SupportsTail () { return false; }
-  
+
+  virtual bool SupportsTail() { return true; }
+
   /*! @method Version */
   virtual OSStatus    Version() { return kTremoloVersion; }
 
