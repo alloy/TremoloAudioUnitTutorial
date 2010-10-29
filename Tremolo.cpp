@@ -114,6 +114,23 @@ OSStatus      Tremolo::GetProperty(  AudioUnitPropertyID inID,
   return AUEffectBase::GetProperty (inID, inScope, inElement, outData);
 }
 
+#pragma mark ____Factory Presets
+
+ComponentResult TremoloUnit::GetPresets(CFArrayRef *outData) const {
+  if (outData == NULL) {
+    return noErr;
+  }
+
+  CFMutableArrayRef presetsArray = CFArrayCreateMutable(NULL, kNumberPresets, NULL);
+
+  for (int i = 0; i < kNumberPresets; ++i) {
+    CFArrayAppendValue(presetsArray, &kPresets[i]);
+  }
+
+  *outData = (CFArrayRef)presetsArray;
+  return noErr;
+}
+
 
 #pragma mark ____TremoloEffectKernel
 
